@@ -1,0 +1,19 @@
+/**
+ * 8-way And: 
+ * out = (in[0] and in[1] and ... and in[7])
+ */
+
+CHIP And8Way {
+    IN in[8];
+    OUT out;
+
+    PARTS:
+    And(a=in[0], b=in[1], out=Andone);
+    And(a=in[2], b=Andone, out=Andtwo);
+    And(a=in[3], b=Andtwo, out=Andthree);
+    And(a=in[4], b=Andthree, out=Andfour);
+    And(a=in[5], b=Andfour, out=Andfive);
+    And(a=in[6], b=Andfive, out=Andsix);
+    And(a=in[7], b=Andsix, out=out);
+
+}

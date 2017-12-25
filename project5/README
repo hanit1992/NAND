@@ -1,0 +1,22 @@
+hanit1992
+===============================================================================
+hanit hakim, ID 308396480, hanit.hakim@mail.huji.ac.il
+===============================================================================
+
+                           Project 5 - An HDL File
+                           ----------------------- 
+  
+
+Submitted Files
+---------------
+README - This file.
+Computer.hdl - This chip is the combination of the parts that build the computer. gets 1 reset input
+CPU.hdl - the regular CPU version. this is the chip who executing an input instruction on some input data
+CpuMul.hdl - this is an extended cpu. it uses the extended ALU in order to execute instructions.
+ExtendedAlu.hdl - this chip is an extention of the ALU, it can also calculate shift and multiplication operations
+Memory.hdl - the memory of the computer chip (the RAM). consists of data segments and I\O memmory segments
+             we decide by the given address the I\O we would like to activate
+Or16Way.hdl - my own chip. i use it for the ALU, in order to decide on the zr and ng valus - activating Or on all the bits
+Remarks
+-------
+i created my own chip to make some of the other chips calculations easier and more organized.

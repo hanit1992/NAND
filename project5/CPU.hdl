@@ -1,0 +1,89 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/05/CPU.hdl
+
+/**
+ * The Hack CPU (Central Processing unit), consisting of an ALU,
+ * two registers named A and D, and a program counter named PC.
+ * The CPU is designed to fetch and execute instructions written in 
+ * the Hack machine language. In particular, functions as follows:
+ * Executes the inputted instruction according to the Hack machine 
+ * language specification. The D and A in the language specification
+ * refer to CPU-resident registers, while M refers to the external
+ * memory location addressed by A, i.e. to Memory[A]. The inM input 
+ * holds the value of this location. If the current instruction needs 
+ * to write a value to M, the value is placed in outM, the address 
+ * of the target location is placed in the addressM output, and the 
+ * writeM control bit is asserted. (When writeM==0, any value may 
+ * appear in outM). The outM and writeM outputs are combinational: 
+ * they are affected instantaneously by the execution of the current 
+ * instruction. The addressM and pc outputs are clocked: although they 
+ * are affected by the execution of the current instruction, they commit 
+ * to their new values only in the next time step. If reset==1 then the 
+ * CPU jumps to address 0 (i.e. pc is set to 0 in next time step) rather 
+ * than to the address resulting from executing the current instruction. 
+ */
+
+CHIP CPU {
+
+    IN  inM[16],         // M value input  (M = contents of RAM[A])
+        instruction[16], // Instruction for execution
+        reset;           // Signals whether to re-start the current
+                         // program (reset==1) or continue executing
+                         // the current program (reset==0).
+
+    OUT outM[16],        // M value output
+        writeM,          // Write to M? 
+        addressM[15],    // Address in data memory (of M)
+        pc[15];          // address of next instruction
+
+    PARTS:
+
+    //getting the A register output
+    Mux16(a=instruction, b=ALUout, sel=instruction[15], out=inARegister);
+    Not(in=instruction[15], out=notOpCode);
+    Or(a=notOpCode,b=instruction[5],out=ARegisterBit);
+    ARegister(in=inARegister, load=ARegisterBit, out=outARegister);  //the A register
+
+    //getting the D register output
+    And(a=instruction[15],b=instruction[4],out=loadD); //load only if it's a c instruction and also the dest for this
+                                                       //register is set to 1
+    DRegister(in=ALUout,load=loadD,out=outDRegister); //the D register
+
+    //the alu will get a value decided by the 12 bit of the instruction
+    Mux16(a=outARegister, b=inM, sel=instruction[12], out=inALU);
+    ALU(x=outDRegister, y=inALU, zx=instruction[11],nx=instruction[10], zy=instruction[9],
+    ny=instruction[8],f=instruction[7], no=instruction[6],out=ALUout,out=outM, zr=Outzr,ng=Outng);
+
+    And(a=instruction[3], b=instruction[15], out=writeM); //should we write?
+    And16(a=outARegister,b=true,out[0..14]=addressM); //getting for A the address
+
+    //for the flow control and the next instruction address, we will process the ng and zr
+
+    Mux16(a=false, b=true, sel=false, out=aBus);
+
+    Not(in=Outng, out=notng);
+    Not(in=Outzr, out=notzr);
+    And(a=notng, b=notzr, out=b);
+    Mux16(a=false, b=true, sel=b, out=bBus);
+
+    Mux16(a=false, b=true, sel=Outzr, out=cBus);
+
+    Mux16(a=false, b=true, sel=notng, out=dBus);    
+
+    Mux16(a=false, b=true, sel=Outng, out=eBus);    
+
+    Mux16(a=false, b=true, sel=notzr, out=fBus); 
+
+    Or(a=Outng, b=Outzr, out=g);
+    Mux16(a=false, b=true, sel=g, out=gBus); 
+
+    Mux16(a=false, b=true, sel=true, out=hBus); 
+   
+    Mux8Way16(a=aBus, b=bBus, c=cBus, d=dBus, e=eBus, f=fBus, g=gBus, h=hBus, sel=instruction[0..2], out[0]=tempload);
+    And(a=tempload, b=instruction[15], out=load); // jump only id it's a c instruction
+    Not(in=load, out=notload); // negating load in order to put in inc
+    PC(in=outARegister,reset=reset, load=load, inc=notload , out[0..14]=pc); 
+    
+}

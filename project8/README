@@ -1,0 +1,21 @@
+hanit1992
+===============================================================================
+hanit hakim, ID 308396480, hanit.hakim@mail.huji.ac.il
+===============================================================================
+
+                           Project 8 - VMtranslator - programming project
+                           -------------------------------------------
+  
+
+Submitted Files
+---------------
+README - This file.
+VMtranslator - contains the execution command to this specific program
+Makefile - contains a code that prepares the executable program file
+Main.py - the script file, containing the main function of the program who executes it
+Code_Writer.py - script file, contains writer of the asm commands
+Parser.py - creates command objects from the commands in the input vm file
+Command.py - containes a class of the command object
+
+Remarks
+-------

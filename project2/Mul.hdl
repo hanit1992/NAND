@@ -1,0 +1,63 @@
+CHIP Mul{
+
+    IN a[16], b[16];
+ 
+   OUT out[16];
+
+ 
+
+   PARTS:
+//first, creating the numbers we wish to add in each case of a true bit
+ ShiftLeft(in=b, out=temp1);
+ ShiftLeft(in=temp1, out=temp2);
+ ShiftLeft(in=temp2, out=temp3);
+ ShiftLeft(in=temp3, out=temp4);
+ ShiftLeft(in=temp4, out=temp5);
+ ShiftLeft(in=temp5, out=temp6);
+ ShiftLeft(in=temp6, out=temp7);
+ ShiftLeft(in=temp7, out=temp8);
+ ShiftLeft(in=temp8, out=temp9);
+ ShiftLeft(in=temp9, out=temp10);
+ ShiftLeft(in=temp10, out=temp11);
+ ShiftLeft(in=temp11, out=temp12);
+ ShiftLeft(in=temp12, out=temp13);
+ ShiftLeft(in=temp13, out=temp14);
+ ShiftLeft(in=temp14, out=temp15);
+
+//next, using mux to decide whether to add the number or not, in accordamce to the bit ib the other input number
+Mux16(a=false, b=b, sel=a[0], out=out1);
+Mux16(a=false, b=temp1, sel=a[1], out=out2);
+Mux16(a=false, b=temp2, sel=a[2], out=out3);
+Mux16(a=false, b=temp3, sel=a[3], out=out4);
+Mux16(a=false, b=temp4, sel=a[4], out=out5);
+Mux16(a=false, b=temp5, sel=a[5], out=out6);
+Mux16(a=false, b=temp6, sel=a[6], out=out7);
+Mux16(a=false, b=temp7, sel=a[7], out=out8);
+Mux16(a=false, b=temp8, sel=a[8], out=out9);
+Mux16(a=false, b=temp9, sel=a[9], out=out10);
+Mux16(a=false, b=temp10, sel=a[10], out=out11);
+Mux16(a=false, b=temp11, sel=a[11], out=out12);
+Mux16(a=false, b=temp12, sel=a[12], out=out13);
+Mux16(a=false, b=temp13, sel=a[13], out=out14);
+Mux16(a=false, b=temp14, sel=a[14], out=out15);
+Mux16(a=false, b=temp15, sel=a[15], out=out16);
+
+//and adding all 
+Add16(a=out1, b=out2, out=mul1);
+Add16(a=out3, b=mul1, out=mul2);
+Add16(a=out4, b=mul2, out=mul3);
+Add16(a=out5, b=mul3, out=mul4);
+Add16(a=out6, b=mul4, out=mul5);
+Add16(a=out7, b=mul5, out=mul6);
+Add16(a=out8, b=mul6, out=mul7);
+Add16(a=out9, b=mul7, out=mul8);
+Add16(a=out10, b=mul8, out=mul9);
+Add16(a=out11, b=mul9, out=mul10);
+Add16(a=out12, b=mul10, out=mul11);
+Add16(a=out13, b=mul11, out=mul12);
+Add16(a=out14, b=mul12, out=mul13);
+Add16(a=out15, b=mul13, out=mul14);
+Add16(a=out16, b=mul14, out=out);
+
+ 
+}

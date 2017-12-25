@@ -1,0 +1,15 @@
+CHIP ShiftRight{
+
+     IN in[16];
+ 
+    OUT out[16];
+ 
+    
+ PARTS:
+
+
+
+And16(a=in,b=in,out[1..15]=out[0..14]);
+And(a=true, b=in[15], out=out[15]);
+
+}

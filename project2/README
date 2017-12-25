@@ -1,0 +1,26 @@
+hanit1992
+===============================================================================
+hanit hakim, ID 308396480, hanit.hakim@mail.huji.ac.il
+===============================================================================
+
+                           Project 2 - An HDL File
+                           ----------------------- 
+  
+
+Submitted Files
+---------------
+README - This file.
+Add16.hdl - adds 2 16 bit numbers
+ALU.hdl - an Arithmetic Logic Unit gate chip: will allow performing arithmetic operations as specified
+FullAdder.hdl - computes the sum of 3 bits
+HalfAdder.hdl - computes the sum of 2 bits
+inc16.hdl - increments input 16 bit number by 1
+Mul.hdl - computes the multiplication of 2 numbers
+ShiftLeft.hdl - multiply a 16 bit number by 2
+ShiftRight.hdl - divides a 16 bit number by 2
+And8Way.hdl - My own chip, for the use of the ALU. getting a 8 bit input number and applying the And gate on all of them
+Xor16.hdl - My own chip, for the use of the ALU. a 16 bit Xor gate
+
+Remarks
+-------
+i created my own chips to make the calculations in the ALU chip easier and more orgenized.

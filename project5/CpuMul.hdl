@@ -1,0 +1,79 @@
+/**
+* This chip is an extension of the book CPU by using the extended ALU.
+* More specificly if instruction[15]==0 or (instruction[14] and instruction[13] equals 1)
+* the CpuMul behave exactly as the book CPU.
+* While if it is C instruction and instruction[13] == 0 the output will be D*A/M 
+* (according to instruction[12]).
+* Moreover, if it is c instruction and instruction[14] == 0 it will behave as follows:
+*
+* instruction:  | 12 | 11 | 10 |
+* _____________________________
+* shift left D  | 0  | 1  | 1  |
+* shift left A  | 0  | 1  | 0  |
+* shift left M  | 1  | 1  | 0  |
+* shift right D | 0  | 0  | 1  |
+* shift right A | 0  | 0  | 0  |
+* shift right M | 1  | 0  | 0  |
+**/
+
+CHIP CpuMul{
+
+    IN  inM[16],         // M value input  (M = contents of RAM[A])
+        instruction[16], // Instruction for execution
+        reset;           // Signals whether to re-start the current
+                         // program (reset=1) or continue executing
+                         // the current program (reset=0).
+
+    OUT outM[16],        // M value output
+        writeM,          // Write into M? 
+        addressM[15],    // Address in data memory (of M)
+        pc[15];          // address of next instruction
+
+     PARTS:
+
+     //getting the a register output
+    Mux16(a=instruction, b=ALUout, sel=instruction[15], out=inARegister);
+    Not(in=instruction[15], out=notOpCode);
+    Or(a=notOpCode,b=instruction[5],out=ARegisterBit);
+    ARegister(in=inARegister, load=ARegisterBit, out=outARegister);  //the A register
+
+    //getting the D register output
+    And(a=instruction[15],b=instruction[4],out=loadD); //load only if it's a c instruction and also the dest for this
+                                                       //register is set to 1
+    DRegister(in=ALUout,load=loadD,out=outDRegister); //the D register
+
+
+    Mux16(a=outARegister, b=inM, sel=instruction[12], out=inALU);
+    ExtendAlu(x=outDRegister, y=inALU, instruction=instruction[6..14],out=outM,out=ALUout,zr=Outzr,ng=Outng);
+    //using the extended ALU for the spacial cpu
+
+    And(a=instruction[3], b=instruction[15], out=writeM);
+    And16(a=outARegister,b=true,out[0..14]=addressM);
+
+    //getting buses for the flow control decision
+    Mux16(a=false, b=true, sel=false, out=aBus);
+
+    Not(in=Outng, out=notng);
+    Not(in=Outzr, out=notzr);
+    And(a=notng, b=notzr, out=b);
+    Mux16(a=false, b=true, sel=b, out=bBus);
+
+    Mux16(a=false, b=true, sel=Outzr, out=cBus);
+
+    Mux16(a=false, b=true, sel=notng, out=dBus);
+
+    Mux16(a=false, b=true, sel=Outng, out=eBus);
+
+    Mux16(a=false, b=true, sel=notzr, out=fBus);
+
+    Or(a=Outng, b=Outzr, out=g);
+    Mux16(a=false, b=true, sel=g, out=gBus);
+
+    Mux16(a=false, b=true, sel=true, out=hBus);
+
+    //getting next instruction
+    Mux8Way16(a=aBus, b=bBus, c=cBus, d=dBus, e=eBus, f=fBus, g=gBus, h=hBus, sel=instruction[0..2], out[0]=tempload); //in order to use a chip the i allready built, creating from 1 bit chip a 16 bit chip
+    And(a=tempload, b=instruction[15], out=load); // jump only id it's a c instruction
+    Not(in=load, out=notload); // negating load in order to put in inc
+    PC(in=outARegister,reset=reset, load=load, inc=notload , out[0..14]=pc);
+}

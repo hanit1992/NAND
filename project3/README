@@ -1,0 +1,23 @@
+hanit1992
+===============================================================================
+hanit hakim, ID 308396480, hanit.hakim@mail.huji.ac.il
+===============================================================================
+
+                           Project 3 - An HDL File
+                           ----------------------- 
+  
+
+Submitted Files
+---------------
+README - This file.
+Bit.hdl - if load in time t is 1, in time t+1 the output will be the input of time t, in not the output will remain
+PC.hdl -  a 16 bit counter who gets 3 values and outputs a value in time t+1 according to the time t input
+RAM4K.hdl - memory of 4K registers
+RAM8.hdl - memory of 8 registers
+RAM16K.hdl - memory of 16K registers
+RAM64.hdl - memory of 64 registers
+RAM512.hdl - memory of 512 registers
+Register.hdl - a 16 bit register. 16 bit operation of Bit - which is 1 bit register
+
+Remarks
+-------

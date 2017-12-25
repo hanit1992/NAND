@@ -1,0 +1,23 @@
+hanit1992
+===============================================================================
+hanit hakim, ID 308396480, hanit.hakim@mail.huji.ac.il
+===============================================================================
+
+                           Project 6 - Assembler - programming project
+                           -------------------------------------------
+  
+
+Submitted Files
+---------------
+README - This file.
+Assembler - contains the execution command to this specific program
+Makefile - contains a code that prepares the executable program file
+Main.py - the script file, containing the main function of the program who executes it
+InstructionA.py - script file, contains the A instruction class
+InstructionC.py - script file, contains the C instruction class
+Parser.py - script file, contains the Parser of the program - in charge of parsing the input files and set the instructions as objects of the program
+SymbolTable.py - contains functions who updates the code according to the symbolic table, while updating the table itself
+Code.py - the core code of the program - translates the instruction objects into the machine binary code - and writing it to the .hack output file
+
+Remarks
+-------
