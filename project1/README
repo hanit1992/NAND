@@ -1,0 +1,30 @@
+hanit1992
+===============================================================================
+hanit hakim, ID 308396480, hanit.hakim@mail.huji.ac.il
+===============================================================================
+
+                           Project 1 - An HDL File
+                           ----------------------- 
+  
+
+Submitted Files
+---------------
+README - This file.
+And.hdl - an And logic gate
+And16.hdl - a 16 bit And logic gate - takes 16 bit busses, outputs 16 bit busses
+DMux.hdl - DMux logic gate implementation. decides by a sel bit the outputs value
+DMux4Way.hdl - decides by a two bit sel the 4 outputs
+DMux8Way.hdl - decides by a three bit sel the 8 outputs
+Mux.hdl - decides which input will be the output according to a single sel
+Mux4Way16.hdl - a 4 inputs 16 bit gate, decides by a 2 bit sel the output
+Mux8Way16.hdl - a 8 inputs 16 bit gate, decides by a 3 bit sel the output
+Mux16.hdl - 16 bit Mux gate
+Not.hdl - a Not logical gate implementation
+Not16.hdl - a 16 bit Not gate
+Or.hdl - an Or logical gate implementation
+Or8Way.hdl - an Or gate on 8 bit bus input
+Or16.hdl - a 16 bit Or gate
+Xor.hdl - a Xor gate implementation
+
+Remarks
+-------
